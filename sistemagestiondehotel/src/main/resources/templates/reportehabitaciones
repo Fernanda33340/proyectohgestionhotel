@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Reporte de Habitaciones</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="p-4">
+    <h2 class="mb-3">🏨 Reporte de Habitaciones</h2>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Número</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Estado</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="habitacion : ${habitaciones}">
+                <td th:text="${habitacion.id}"></td>
+                <td th:text="${habitacion.numero}"></td>
+                <td th:text="${habitacion.tipo}"></td>
+                <td th:text="${habitacion.precio}"></td>
+                <td th:text="${habitacion.estadoHabitacion.nombre}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

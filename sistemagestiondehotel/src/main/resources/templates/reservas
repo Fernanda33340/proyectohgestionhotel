@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Reservas</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark mb-4">
+    <div class="container">
+        <a class="navbar-brand" href="/">Hotel UMG</a>
+        <ul class="navbar-nav">
+            <li class="nav-item"><a class="nav-link" href="/clientes">Clientes</a></li>
+            <li class="nav-item"><a class="nav-link" href="/habitaciones">Habitaciones</a></li>
+            <li class="nav-item"><a class="nav-link active" href="/reservas">Reservas</a></li>
+            <li class="nav-item"><a class="nav-link" href="/reportes">Reportes</a></li>
+        </ul>
+    </div>
+</nav>
+
+<div class="container py-4">
+    <h2 class="text-center mb-4">Gestión de Reservas</h2>
+
+    <!-- Formulario -->
+    <form th:action="@{/reservas/guardar}" th:object="${reserva}" method="post" class="card p-4 mb-4">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label>Cliente:</label>
+                <select th:field="*{cliente}" class="form-select">
+                    <option th:each="cliente : ${clientes}"
+                            th:value="${cliente.id}"
+                            th:text="${cliente.nombre}"></option>
+                </select>
+            </div>
+            <div class="col-md-4">
+                <label>Habitación:</label>
+                <select th:field="*{habitacion}" class="form-select">
+                    <option th:each="habitacion : ${habitaciones}"
+                            th:value="${habitacion.id}"
+                            th:text="${habitacion.numero}"></option>
+                </select>
+            </div>
+            <div class="col-md-2">
+                <label>Fecha Inicio:</label>
+                <input type="date" th:field="*{fechaInicio}" class="form-control" required>
+            </div>
+            <div class="col-md-2">
+                <label>Fecha Fin:</label>
+                <input type="date" th:field="*{fechaFin}" class="form-control" required>
+            </div>
+        </div>
+        <div class="text-center">
+            <button type="submit" class="btn btn-primary">Guardar</button>
+            <a href="/reservas" class="btn btn-secondary">Cancelar</a>
+        </div>
+    </form>
+
+    <!-- Tabla -->
+    <div class="card p-4">
+        <h4>Reservas Registradas</h4>
+        <table class="table table-hover mt-3">
+            <thead>
+            <tr>
+                <th>ID</th><th>Cliente</th><th>Habitación</th><th>Fecha Inicio</th><th>Fecha Fin</th><th>Acciones</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="reserva : ${reservas}">
+                <td th:text="${reserva.id}"></td>
+                <td th:text="${reserva.cliente.nombre}"></td>
+                <td th:text="${reserva.habitacion.numero}"></td>
+                <td th:text="${reserva.fechaInicio}"></td>
+                <td th:text="${reserva.fechaFin}"></td>
+                <td>
+                    <a th:href="@{/reservas/editar/{id}(id=${reserva.id})}" class="btn btn-warning btn-sm">Editar</a>
+                    <a th:href="@{/reservas/eliminar/{id}(id=${reserva.id})}" class="btn btn-danger btn-sm">Eliminar</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
